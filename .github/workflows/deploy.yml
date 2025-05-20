@@ -1,12 +1,15 @@
 name: Terraform Deploy
 
 on:
+  push:
+    branches:
+      - feature/addTFLint
   pull_request:
     branches:
       - main
 
 jobs:
-  terraform:
+  setup_requirements:
     runs-on: ubuntu-latest
     env:
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -24,9 +27,7 @@ jobs:
         terraform_version: 1.9.0
 
     - name: Setup TFLint
-      uses: terraform-linters/setup-tflint@v4
-      with:
-        tflint_version: 0.52.0
+      run: curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash && sleep 30
     
     - name: Init TFLint
       run: tflint --init
