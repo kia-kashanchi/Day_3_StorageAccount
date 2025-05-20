@@ -25,17 +25,9 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.9.0
-    
-    - name: Cache plugin dir
-      uses: actions/cache@v4
-      with:
-        path: ~/.tflint.d/plugins
-        key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
 
     - name: Setup TFLint
-      uses: terraform-linters/setup-tflint@v4
-      with:
-        tflint_version: 0.52.0
+      run: curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
     
     - name: Init TFLint
       run: tflint --init
